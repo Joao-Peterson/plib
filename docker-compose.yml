@@ -1,0 +1,17 @@
+services:
+  postgres15:
+    image: postgres:15
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "pguser"]
+      interval: 1s
+      timeout: 1m
+      retries: 5
+      start_period: 5s
+    environment:
+      - POSTGRES_USER=pguser
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
